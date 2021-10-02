@@ -1,10 +1,10 @@
 import React from 'react';
-// import logo from '../img/logo.svg';
+import logo from 'url:../img/logo.svg'; // parcel2 fix
 
 const Header = () => {
   return (
     <header>
-      {/*<img src={logo} alt="Notedly Logo" height="40" />*/}
+      <img src={logo} alt="Notedly Logo" height="40" />
       <h1>Notedly</h1>
     </header>
   );

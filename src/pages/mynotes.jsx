@@ -1,6 +1,4 @@
 import React, { useEffect } from 'react';
-import Header from '../components/Header';
-import Navigation from '../components/Navigation';
 
 const MyNotes = () => {
   useEffect(() => {
@@ -10,9 +8,7 @@ const MyNotes = () => {
 
   return (
     <div>
-      <Header/>
       <p>These are my notes</p>
-      <Navigation/>
     </div>
   );
 
