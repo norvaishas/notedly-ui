@@ -1,9 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+import Layout from '../components/Layout';
+
+// Импорт маршрутов
 import Home from './home';
 import MyNotes from './mynotes';
 import Favorites from './favorites';
-import Layout from '../components/Layout';
+import NotePage from './notes';
 
 const Pages = () => {
   return (
@@ -12,6 +15,7 @@ const Pages = () => {
         <Route exact path='/' component={Home}/>
         <Route path='/mynotes' component={MyNotes}/>
         <Route path='/favorites' component={Favorites}/>
+        <Route path='/note/:id' component={NotePage}/>
       </Layout>
     </Router>
   );
