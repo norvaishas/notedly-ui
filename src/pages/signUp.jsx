@@ -34,7 +34,7 @@ const Form = styled.form`
   }
 `;
 
-const SignUp = () => {
+const SignUp = (props) => {
 
   useEffect(() => {
     document.title = 'SignUp — Notedly';
@@ -50,9 +50,11 @@ const SignUp = () => {
   };
   // Добавляем (настраиваем) хук мутации
   const [signUp, { loading, error }] = useMutation(SIGNUP_USER, {
-    onCompleted: (data) => {
-      // По завершению мутации, выводим JSON Web Token
-      console.log(`Мутация завершена, результат: ${data.signUp}`);
+    onCompleted: data => {
+      // Сохраняем JWT в localStorage
+      localStorage.setItem('token', data.signUp);
+      // Перенаправляем пользователя на домашнюю страницу
+      props.history.push('/');
     }
   });
 
