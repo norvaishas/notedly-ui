@@ -1,7 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useMutation, gql } from '@apollo/client';
 
 import Button from '../components/Button';
+
+const SIGNUP_USER = gql`
+  mutation signUp ($email: String!, $username: String!, $password: String!) {
+    signUp (
+      email: $email,
+      username: $username,
+      password: $password
+    )
+  }
+`;
 
 const Wrapper = styled.div`
   border: 1px solid #f5f4f0;
@@ -37,13 +48,25 @@ const SignUp = () => {
       [event.target.name]: event.target.value
     });
   };
+  // Добавляем (настраиваем) хук мутации
+  const [signUp, { loading, error }] = useMutation(SIGNUP_USER, {
+    onCompleted: (data) => {
+      // По завершению мутации, выводим JSON Web Token
+      console.log(`Мутация завершена, результат: ${data.signUp}`);
+    }
+  });
 
   return (
     <Wrapper>
       <Form
         onSubmit={event => {
           event.preventDefault();
-          console.log(values);
+          // Вызываем функцию из хука, передав в нее значения из формы
+          signUp({
+            variables: {
+              ...values
+            }
+          })
         }}
       >
         <label htmlFor="username">Username:</label>
