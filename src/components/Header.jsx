@@ -1,6 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useQuery, gql } from '@apollo/client';
+import { Link } from 'react-router-dom';
+
 import logo from 'url:../img/logo.svg'; // parcel2 fix
+
+// Запрос из локального хранилища Apollo (кэша)
+const IS_LOGGED_IN = gql`
+  {
+    isLoggedIn @client
+  }
+`;
 
 const HeaderBar = styled.header`
   width: 100%;
@@ -20,11 +30,33 @@ const LogoText = styled.h1`
   display: inline;
 `;
 
+const UserState = styled.div`
+  margin-left: auto;
+`;
+
 const Header = () => {
+
+  // Чем плохо получение состояния авторизации напрямую из LS?
+  // const isLoggedIn = !!localStorage.getItem('token'); // <-- Вот так
+
+  // Хук запроса (для проверки состояния авторизации пользователя)
+  const { data } = useQuery(IS_LOGGED_IN);
+
+  const userBtns = data.isLoggedIn
+    ? <button>Quit</button>
+    : (
+      <p>
+        <Link to='/signin'>Sign In</Link> or{' '}
+        <Link to='/signup'>Sign Up</Link>
+      </p>
+    )
+  ;
+
   return (
     <HeaderBar>
       <img src={logo} alt="Notedly Logo" height="40" />
       <LogoText>Notedly</LogoText>
+      <UserState>{userBtns}</UserState>
     </HeaderBar>
   );
 };

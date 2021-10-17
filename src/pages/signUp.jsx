@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useMutation, gql } from '@apollo/client';
+import { useMutation, gql, useApolloClient } from '@apollo/client';
 
 import Button from '../components/Button';
 
@@ -48,11 +48,17 @@ const SignUp = (props) => {
       [event.target.name]: event.target.value
     });
   };
+
+  // Apollo Client
+  const client = useApolloClient();
+
   // Добавляем (настраиваем) хук мутации
   const [signUp, { loading, error }] = useMutation(SIGNUP_USER, {
     onCompleted: data => {
       // Сохраняем JWT в localStorage
       localStorage.setItem('token', data.signUp);
+      // Создаем в локальном кэше (хранилище), поле хранящее флаг статуса авторизации
+      client.writeData({ data: { isLoggedIn: true } });
       // Перенаправляем пользователя на домашнюю страницу
       props.history.push('/');
     }

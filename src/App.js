@@ -25,9 +25,17 @@ const authLink = setContext((_, { headers }) => {
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache,
-  resolvers: {},
+  resolvers: {}, // позволит выполнять GQL-запросы к локальному кэшу
   connectToDevTools: true
 });
+
+// Проверяем наличие локального токена
+const data = {
+  isLoggedIn: !!localStorage.getItem('token') // !! - приведение к boolean
+};
+
+// Записываем данные в кэш при начальной загрузке
+cache.writeData({ data });
 
 const App = () => {
   return (
