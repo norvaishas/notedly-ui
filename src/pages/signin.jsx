@@ -3,26 +3,24 @@ import { useMutation, gql, useApolloClient } from '@apollo/client';
 
 import UserForm from '../components/UserForm';
 
-const SIGNUP_USER = gql`
-  mutation signUp ($email: String!, $username: String!, $password: String!) {
-    signUp (
+const SIGNIN_USER = gql`
+  mutation signIn ($email: String, $password: String!) {
+    signIn(
       email: $email,
-      username: $username,
       password: $password
     )
   }
 `;
 
-const SignUp = (props) => {
+const SignIn = props => {
 
   useEffect(() => {
-    document.title = 'SignUp — Notedly';
+    document.title = 'Sign In - Notedly';
   });
 
   const client = useApolloClient();
 
-  // Добавляем (настраиваем) хук мутации
-  const [signUp, { loading, error }] = useMutation(SIGNUP_USER, {
+  const [signIn, { loading, error }] = useMutation(SIGNIN_USER, {
     onCompleted: data => {
       // Сохраняем JWT в localStorage
       localStorage.setItem('token', data.signUp);
@@ -35,11 +33,11 @@ const SignUp = (props) => {
 
   return (
     <>
-      <UserForm formType='signup' action={signUp}/>
+      <UserForm formType='signin' action={signIn}/>
       {loading && <p>Loading, please wait...</p>}
-      {error && <p>Error creating an account!</p>}
+      {error && <p>Error signing in!</p>}
     </>
   )
-};
+}
 
-export default SignUp;
+export default SignIn;
