@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { useQuery, gql } from '@apollo/client';
 import Layout from '../components/Layout';
 
 // Импорт маршрутов
@@ -10,13 +11,19 @@ import NotePage from './notes';
 import SignUp from './signUp';
 import SignIn from './signin';
 
+const IS_LOGGED_IN = gql`
+  {
+    isLoggedIn @client
+  }
+`;
+
 const Pages = () => {
   return (
     <Router>
       <Layout >
         <Route exact path='/' component={Home}/>
-        <Route path='/mynotes' component={MyNotes}/>
-        <Route path='/favorites' component={Favorites}/>
+        <PrivateRoute path='/mynotes' component={MyNotes}/>
+        <PrivateRoute path='/favorites' component={Favorites}/>
         <Route path='/note/:id' component={NotePage}/>
         <Route path='/signup' component={SignUp}/>
         <Route path='/signin' component={SignIn}/>
@@ -26,3 +33,27 @@ const Pages = () => {
 };
 
 export default Pages;
+
+const PrivateRoute = ({ component: Component, ...rest }) => { // деструктуризация + переименование свойства
+  const { loading, error, data } = useQuery(IS_LOGGED_IN);
+
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error!!!</p>
+
+  return (
+    <Route {...rest} render={props => // пропсы маршрута
+      data.isLoggedIn === true ?
+        // Если пользователь авторизован, направляем его к запрашиваемому компоненту
+        <Component {...props} />
+        :
+        // В противном случае перенаправляем на страницу авторизации
+        <Redirect
+          to={{
+            pathname: '/signin',
+            state: {from: props.location}
+          }}
+        />
+    }
+    />
+  )
+};
