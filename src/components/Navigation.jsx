@@ -48,6 +48,7 @@ const Navigation = () => {
         <li><Link to="/">Home</Link></li>
         <li><Link to="/mynotes">My Notes</Link></li>
         <li><Link to="/favorites">Favorites</Link></li>
+        <li><Link to="/new">New Note</Link></li>
       </NavList>
     </Nav>
   );

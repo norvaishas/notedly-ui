@@ -1,17 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { Link, withRouter} from 'react-router-dom';
 
 import ButtonAsLink from './ButtonAsLink';
 import logo from 'url:../img/logo.svg'; // parcel2 fix
 
-// Запрос из локального хранилища Apollo (кэша)
-const IS_LOGGED_IN = gql`
-  {
-    isLoggedIn @client
-  }
-`;
+import { IS_LOGGED_IN } from '../gql/query';
 
 const HeaderBar = styled.header`
   width: 100%;
