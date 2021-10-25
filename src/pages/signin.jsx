@@ -23,7 +23,7 @@ const SignIn = props => {
   const [signIn, { loading, error }] = useMutation(SIGNIN_USER, {
     onCompleted: data => {
       // Сохраняем JWT в localStorage
-      localStorage.setItem('token', data.signUp);
+      localStorage.setItem('token', data.signIn);
       // Создаем в локальном кэше (хранилище), поле хранящее флаг статуса авторизации
       client.writeData({ data: { isLoggedIn: true } });
       // Перенаправляем пользователя на домашнюю страницу
