@@ -44,8 +44,50 @@ const IS_LOGGED_IN = gql`
   }
 `;
 
+const GET_MY_NOTES = gql`
+  query MyNotes {
+    me {
+      id
+      username
+      notes {
+        id
+        content
+        createdAt
+        favoriteCount
+        author {
+          username
+          id
+          avatar
+        }
+      }
+    }
+  }
+`;
+
+const GET_MY_FAVORITES = gql`
+  query MyFavorites {
+    me {
+      id
+      username
+      favorites {
+        id
+        content
+        createdAt
+        favoriteCount
+        author {
+          username
+          id
+          avatar
+        }
+      }
+    }
+  }
+`;
+
 export {
   GET_NOTE,
   GET_NOTES,
-  IS_LOGGED_IN
+  IS_LOGGED_IN,
+  GET_MY_NOTES,
+  GET_MY_FAVORITES
 }
