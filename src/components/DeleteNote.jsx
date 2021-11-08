@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 
 import ButtonAsLink from './ButtonAsLink';
 import { DELETE_NOTE } from '../gql/mutation';
-import { GET_MY_NOTES, GET_NOTES } from '../../final/gql/query';
+import { GET_MY_NOTES, GET_NOTES } from '../gql/query';
 
 
 const DeleteNote = (props) => {
